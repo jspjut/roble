@@ -15,3 +15,4 @@ Some tentative goals:
   * Possibly create structures from images.
   * Hopefully some multi-player elements.
   * Ideally a structure editor of some sort.
+  * The ability to use google sketch to generate structures would be nice.
