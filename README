@@ -1,2 +1,10 @@
-Testing
+To compile the project just type the following command in this
+directory:
+
+make
+
+To run after compiling just type:
+
+./roble
+
 
