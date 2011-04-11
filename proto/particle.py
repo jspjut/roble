@@ -2,8 +2,9 @@ import pyglet
 
 class Particle:
     def __init__(self, pos, vel):
-        self.pos = pos
+        self.pos = [pos[0], pos[1]]
         self.vel = vel
+        self.color = (0,0,255)
 
     def draw(self):
         size = 5
@@ -28,7 +29,7 @@ class Particle:
         self.pos[0] = self.pos[0] + self.vel[0] * dt
         self.pos[1] = self.pos[1] + self.vel[1] * dt
 
-    def check_bounds(self, width, height):
+    def wrap_around(self, width, height):
         if self.pos[0] > width:
             self.pos[0] -= width
         if self.pos[0] < 0:
@@ -37,3 +38,9 @@ class Particle:
             self.pos[1] -= height
         if self.pos[1] < 0:
             self.pos[1] += height
+
+    def bounce_around(self, width, height):
+        if (self.pos[0] > width and self.vel[0] > 0) or (self.pos[0] < 0 and self.vel[0] < 0):
+            self.vel[0] = -self.vel[0]
+        if (self.pos[1] > height and self.vel[1] > 0) or (self.pos[1] < 0 and self.vel[1] < 0):
+            self.vel[1] = -self.vel[1]
