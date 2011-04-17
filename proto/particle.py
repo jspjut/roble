@@ -1,10 +1,11 @@
 import pyglet
 
 class Particle:
-    def __init__(self, pos, vel, color = (0, 0, 255)):
+    def __init__(self, pos, vel, color = (0, 0, 255), accel = (0, -180)):
         self.pos = [pos[0], pos[1]]
-        self.vel = vel
+        self.vel = [vel[0], vel[1]]
         self.color = color
+        self.accel = accel
 
     def get_vertex_type(self):
         return pyglet.gl.GL_TRIANGLE_FAN
@@ -28,8 +29,10 @@ class Particle:
                   )
 
     def update(self, dt):
-        self.pos[0] = self.pos[0] + self.vel[0] * dt
-        self.pos[1] = self.pos[1] + self.vel[1] * dt
+        self.pos[0] = self.pos[0] + self.vel[0] * dt + self.accel[0] * dt * dt
+        self.pos[1] = self.pos[1] + self.vel[1] * dt + self.accel[1] * dt * dt
+        self.vel[0] = self.vel[0] + self.accel[0] * dt
+        self.vel[1] = self.vel[1] + self.accel[1] * dt
 
     def wrap_around(self, width, height):
         if self.pos[0] > width:
@@ -50,4 +53,7 @@ class Particle:
     def is_dead(self, width, height):
         if (self.pos[0] > width or self.pos[1] > height or self.pos[0] < 0 or self.pos[1] < 0):
             return True
+#         if (self.pos[0] > width):
+#             return True
         return False
+
