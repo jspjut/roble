@@ -15,17 +15,35 @@ center = [window.width/2, window.height/2]
 ps = []
 bs = [box.Box((0,0),(32,32),(127,127,127)),
       box.Box((0,32),(32,64),(0,127,127)),
-      box.Box((0,64),(32,96),(127,0,127))]
+      box.Box((0,64),(32,96),(127,0,127)),
+      box.Box((0,96),(32,128),(0,127,0))]
+
+settings = {'wrap':False, 'kill':False, 'gravity':False, 'multicolor':True}
 
 def fireworks(pos, num, accel):
+    color = (random.randrange(255), random.randrange(255), random.randrange(255))
     for i in xrange(num):
-        color = (random.randrange(255), random.randrange(255), random.randrange(255))
+        if settings['multicolor']:
+            color = (random.randrange(255), random.randrange(255), random.randrange(255))
         ps.append(particle.Particle(pos, [random.randrange(-200, 200),random.randrange(-200,200)], color, accel))
 
 # for i in xrange(int(window.height/10)):
 #     ps.append(particle.Particle(center, [random.randrange(-200, 200),random.randrange(-200,200)]))
 
-settings = {'wrap':False, 'kill':True, 'gravity':False}
+#sounds = [pyglet.resource.media('data/test.wav', streaming=False)]
+sounds = [pyglet.resource.media('data/c3.wav', streaming=False),
+#          pyglet.resource.media('data/cs3.wav', streaming=False),
+          pyglet.resource.media('data/d3.wav', streaming=False),
+#          pyglet.resource.media('data/ds3.wav', streaming=False),
+          pyglet.resource.media('data/e3.wav', streaming=False),
+          pyglet.resource.media('data/f3.wav', streaming=False),
+#          pyglet.resource.media('data/fs3.wav', streaming=False),
+          pyglet.resource.media('data/g3.wav', streaming=False),
+#          pyglet.resource.media('data/gs3.wav', streaming=False),
+          pyglet.resource.media('data/a3.wav', streaming=False),
+#          pyglet.resource.media('data/as3.wav', streaming=False),
+          pyglet.resource.media('data/b3.wav', streaming=False),
+          pyglet.resource.media('data/c4.wav', streaming=False)]
 
 @window.event
 def on_draw():
@@ -45,7 +63,7 @@ def update(dt):
         if settings['wrap']:
             p.wrap_around(window.width, window.height)
         else:
-            p.bounce_around(window.width, window.height)
+            p.bounce_around(window.width, window.height, sounds)
 pyglet.clock.schedule(update)
 
 
@@ -72,6 +90,8 @@ def on_mouse_press(x, y, button, modifiers):
                 accel = (0,0)
             for p in ps:
                 p.accel = accel
+        elif x < 32 and y >96 and y < 128:
+            settings['multicolor'] = not settings['multicolor']
         else:
             # Fireworks!
             center = [x,y]

@@ -44,11 +44,19 @@ class Particle:
         if self.pos[1] < 0:
             self.pos[1] += height
 
-    def bounce_around(self, width, height):
+    def bounce_around(self, width, height, sounds):
         if (self.pos[0] > width and self.vel[0] > 0) or (self.pos[0] < 0 and self.vel[0] < 0):
             self.vel[0] = -self.vel[0]
+            try:
+                sounds[int(self.pos[1]/height*len(sounds))].play()
+            except:
+                pass
         if (self.pos[1] > height and self.vel[1] > 0) or (self.pos[1] < 0 and self.vel[1] < 0):
             self.vel[1] = -self.vel[1]
+            try:
+                sounds[int(self.pos[0]/width*len(sounds))].play()
+            except:
+                pass
 
     def is_dead(self, width, height):
         if (self.pos[0] > width or self.pos[1] > height or self.pos[0] < 0 or self.pos[1] < 0):
